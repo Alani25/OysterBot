@@ -1,6 +1,6 @@
 # King Oyster 
 ## Bot logs
-Code logs are important things among developers. Since I'm not using github this time around (bc I don't need it for hosting and I'm lazy), I'll be outlining the different versions of the bot with all changes made along the way here. 
+Code logs are important things among developers. Since I'm not using github within my workspace this time around (bc I don't need it for hosting and I'm lazy), I'll be outlining the different versions of the bot with all changes made along the way here.
 
 ###  v0.1.05 
 - 🐛 **Bug:** Bot doesn't reply to messages send in replies to others
@@ -11,11 +11,20 @@ Code logs are important things among developers. Since I'm not using github this
 ###  v0.1.06:
 - ✨ **Feature:** Syllable counter (count syllables for any poem when prompted), to try out reply to a message and say `@King Oyster#0093 count syllables`
 - ✨ **Feature:** Generate QR code, to try out use slash command or type `qr https://example.com SCALE COLOR-HEX BG-COLOR-HEX` (you can leave anything after the link out of it if you want to)
-- ~~**Feature:** Add new creative resources to King Oyster~~ ***Bad Idea*** ❌ (would need constant updates)
+- ❌ ~~**Feature:** Add new creative resources to King Oyster~~ ***Bad Idea*** ❌ (would need constant updates)
 - ✨ **Feature *Update:*** Improve the inspirator, figured there's no use for the adverb in there. Use through `/inspire` command or type `@King Oyster#0093 give me some inspiration` (keywords: `inspire`, `inspiration`)
+
+### v0.1.07
+- 🎩 **Hosting:** Improve memory & hosting
+- ✨ **Feature:** Allow bot to welcome new members
+- 🚔 **Modding:** Spam prevention features with bot. If the same user sends 10+ messages in the same minute, or sends a message that is detected as spam (15+ letters without a space will be detected as spam, ex: uhfkeskfksfnnksefnks), mute them for a minute. If they spam again, bot will mute again for double the time. Mute info will reset after every hour (meaning if they spam again the next hour, it'll be back to 1 minute mute and goes up from there)
+- ✨ **Feature:** Creating reminders. Ask Oyster to remind you to do something at certain time, and it'll DM you or send a message inside the channel when the time comes.
+- 🔧 **Improvement:** Allowed bot to notice poems in **share channel** (used to only react to posts with embeds)
+- 🔧 **Improvement:** Allow user to view specific or next quote (extra parameter), and make it so that requesting new quote creates a new message rather than editing previous message (this is how it was at first but then I edited it to prevent spam and now I'm putting it back after watching recent user interactions)
+
 ___
 ## Code Documentations
-These documentations are written as of version **V0.1.06** of King Oyster Bot.
+These documentations are written as of version **`V0.1.06`** of King Oyster Bot, and are currently being updated with version **`V0.1.07`**.
 
 TOC:
 1. [Workspace](#workspace)
