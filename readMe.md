@@ -30,13 +30,14 @@ TOC:
 1. [Workspace](#workspace)
    - <kbd>[src/ index.js](#src-indexjs)</kbd>
    - <kbd>[src/ quotes.txt](#src-quotestxt)</kbd>
-   - <kbd>[src/ register-commands.js](#src-register-commandsjs)</kbd>
+   - <kbd>[src/ commands.js](#src-commandsjs)</kbd>
    - <kbd>[.env](#env)</kbd>
    - <kbd>[package.json & package-lock.json files + node_modules directory](#packagejson--package-lockjson-files--node_modules-directory)</kbd>
-   - <kbd>Setting up Workspace</kbd> TODO link section
+   - <kbd>[Setting up Workspace](#setting-up-workspace)</kbd>
+      - <kbd>[Renewing Authentication Token](#renewing-authentication-token)</kbd>
 2. [Node packages](#node-packages)
 3. [Slash commands](#slash-commands)
-   - [<kbd>/report</kbd><kbd>`USERNAME`, `REASON`, `ATTACHMENTS` (optional)</kbd>](#report-username-reason-attachments-optional-)
+   - [<kbd>/report</kbd><kbd>`USERNAME`</kbd><kbd>`REASON`</kbd><kbd>`ATTACHMENTS` (optional)</kbd>](#report-username-reason-attachments-optional-)
    - [<kbd>/add-officer</kbd><kbd>`USERNAME`</kbd>](#add-officer-username-)
    - [<kbd>/deadline</kbd><kbd>_</kbd>](#deadline-)
    - [<kbd>/requirements</kbd><kbd>_</kbd>](#requirements-)
@@ -65,25 +66,21 @@ The directory is organized as follows:
 
 
 ## src/ index.js
-The heart of King Oyster, the main breain— this file contains main code for bot. 
-This file includes Google authentication, working with Google Drive & Spreadhseets, imports dependencies, sets bot status, connects to `quotes.txt` file, listens to interactions and created messages.
-<br>TODO link google authentication site & .env
-<br>TODO link Node Packages 
+The heart of King Oyster, the brain— this file contains main code for bot. 
+<br>This file includes Google authentication, working with Google Drive & Spreadhseets (see [renewing authentication token](#renewing-authentication-token) section), imports dependencies (see [Node Packages](#node-packages)), sets bot status, connects to `quotes.txt` file, listens to interactions and created messages.
 
 ## src/ quotes.txt
 Lists quotes to be used in `index.js`.
-<br>See `/quote` slash command.
-<br>TODO link command
+<br>[See `/quote` slash command.](#quote-)
 
-## src/ register-commands.js
+## src/ commands.js
 Registers slash commands.
 <br>Run the following command _once_ to register commands with a server:
 ```curl
-node src/register-commands.js
+node src/commands.js
 ```
 Make sure to adjust the server ID in `.env` file.
-<br>See Slash Commands section for more info on slash commands.
-<br>TODO link slash commands
+<br>[See Slash Commands section for more info on slash commands.](#slash-commands)
 
 ## .env
 Contains all secrets. 
@@ -106,8 +103,9 @@ Contains all secrets.
 
 ## package.json & package-lock.json files + node_modules directory
 `package.json` contains version number of dependencies, while `package-lock.json` includes more info on packages used, connecting back to `node_modules` directory, which includes all the packages used in the project.
-<br>TODO mention node commands here
-<br>TODO link Node Packages section
+
+<br>Setting up NPM steps included in [Setting up Workspace](#setting-up-workspace) section.
+<br>[See Node Packages section.](#node-packages)
 
 ## Setting up Workspace
 See [Workspace](#workspace) to get an idea of how to setup the directory. This tutorial assumes that you have NPM v22+ and git installed on your device. 
@@ -118,7 +116,7 @@ git clone https://github.com/Alani25/OysterBot.git
 or you can manually download the files from this respitory (which would be a better option if you don't have expierence with git).
 <br><img width="481" alt="Screenshot 2025-02-25 at 11 46 48 AM" src="https://github.com/user-attachments/assets/47c3c8db-0c02-407f-9107-709574cfca3a" />
 
-However, you will still _need_ to [install Node JS](https://nodejs.org/en/download) to use the [DiscordJS library](https://discord.js.org/) and other [required packages](#node-packages).
+<br>However, you will still _need_ to [install Node JS](https://nodejs.org/en/download) to use the [DiscordJS library](https://discord.js.org/) and other [required packages](#node-packages).
 
 <br>An IDE (Integrated Development Environment, aka a code editor) would also be required to edit the code, in which case I would recommend [VS Code](https://code.visualstudio.com/). 
 
@@ -126,7 +124,7 @@ However, you will still _need_ to [install Node JS](https://nodejs.org/en/downlo
 <br>Note that the version used in this tutorial is `v0.1.06`, but you might be working off of a different version. If there are any other files or versions outside of the directory feel free to remove them. 
 <br><img width="903" alt="image" src="https://github.com/user-attachments/assets/8816e4ce-f60d-434d-a92a-89187f1c042b" />
 
-Next step should be simple— first make sure your Node version is up to date by running
+<br>Next step should be simple— first make sure your Node version is up to date by running
 ```curl
 node --version
 ```
@@ -138,14 +136,16 @@ npm install
 ```
 
 Preview in terminal:
-<img width="403" alt="image" src="https://github.com/user-attachments/assets/123ac481-23a8-4c8e-b88b-c392caed2788" />
+<br><img width="403" alt="image" src="https://github.com/user-attachments/assets/123ac481-23a8-4c8e-b88b-c392caed2788" />
 
-Now if you've never touched a terminal before you might be confused. In which case, I would recommend you to install the VS Code IDE I mentioned earlier, and open the version folder there instead. After opening the bot folder there, you should find a terminal at the bottom. 
+<br>Now if you've never touched a terminal before you might be confused. In which case, I would recommend you to install the VS Code IDE I mentioned earlier, and open the version folder there instead. After opening the bot folder there, you should find a terminal at the bottom. 
+
 <img width="1019" alt="Screenshot 2025-02-25 at 12 04 05 PM" src="https://github.com/user-attachments/assets/82d415e4-922f-47da-b30a-555bda0b3819" />
+
 If you don't see the terminal, move your cursor closer to the bottom of the editor, and try to drag up the terminal window.
 <br>You should be able to run `npm install` inside of the terminal window, without needing to change directory with `cd V0.1.06` if you opened the version folder inside VS Code.
 
-<br>Your main code should be inside of the [<kbd>index.js</kbd> file](TODO Link index.js file). You will also need to create a [<kbd>.env</kbd> file](TODO Link .env file), see the [<kbd>.env</kbd> file](TODO Link .env file) section for an idea on what to include inside of the file.
+<br>Your main code should be inside of the [<kbd>index.js</kbd> file](#src-indexjs). You will also need to create a [<kbd>.env</kbd> file](#env), see the [<kbd>.env</kbd> file](#env) section for an idea on what to include inside of the file.
 
 <br>**Note:** you will need to know how to aquire the different tokens that are used in the `.env` file in order to create your own.
 <br>If you're planning on updating King Oyster's code… well, first off hey there future C&K officers, I can't believe you're actually reading this!! And second off… you can either contact me for the files or see if I've left it behind for you somewhere, unless if you have expierence programming bots and would like to get them on your own, in which case head over to the [Google authentication playground for developers](https://developers.google.com/oauthplayground), [Google Cloud Console](https://console.cloud.google.com/), both which I'll explain later on, Google Drive & Sheets (obviously) and the [Discord Developer Portal](https://discord.com/developers/applications).
@@ -170,7 +170,7 @@ First thing you should do is thank me for the detailed warning. Next up, follow 
 
 <br>Second step, select the gear icon and make sure to add in your OAuth Client ID and Secret ID.
 <img width="644" alt="Screenshot 2025-02-25 at 5 59 32 PM" src="https://github.com/user-attachments/assets/edec66ac-e2c4-45a7-8a76-1fb16cd0a029" />
-I cannot show these tokens publicly as they can be misused, but you can obtain them from the [Google Cloud Console](https://console.cloud.google.com/), which if you're a part of C&K then I recommend logging in through the C&K Gmail to obtain these codes without much trouble. If you're not, then I would recommend following [this youtube tutorial](https://www.youtube.com/watch?v=1y0-IfRW114) to connect your bot to Google's APIs. 
+<br>I cannot show these tokens publicly as they can be misused, but you can obtain them from the [Google Cloud Console](https://console.cloud.google.com/), which if you're a part of C&K then I recommend logging in through the C&K Gmail to obtain these codes without much trouble. If you're not, then I would recommend following [this youtube tutorial](https://www.youtube.com/watch?v=1y0-IfRW114) to connect your bot to Google's APIs. 
 
 <br>Lastly, select <kbd>Authorize APIs</kbd>
 <img width="547" alt="Screenshot 2025-02-25 at 6 57 19 PM" src="https://github.com/user-attachments/assets/41bf3d6a-0e56-46e7-bc5e-7c2edc7c798a" />
@@ -178,7 +178,7 @@ You would be prompted to log into a google account, and allowing certain permiss
 <br>You should use the C&K google account, or an account that has been set up under [Google Cloud Console](https://console.cloud.google.com/).
 
 <br>Once you complete the process, you should find yourself on step 2 of the OAuth 2.0 Playground (if it skips to step 3, then click step 2). 
-<br>Click <kbd>Exchange authroization code for tokens</kbd>, and then copy the **refresh token**. This is the token that you will define inside the [.env](TODO Link env file) file, under the variable name `DRIVE_REFRESH_TOKEN`.
+<br>Click <kbd>Exchange authroization code for tokens</kbd>, and then copy the **refresh token**. This is the token that you will define inside the [.env](#env) file, under the variable name `DRIVE_REFRESH_TOKEN`.
 
 <br>And now, once you run the bot again, you should not see the `invalid_grant` error.
 
@@ -190,11 +190,13 @@ Node Packages are outside libraries imported into our code to assist with specif
 **DiscordBot**
 <br><kbd>
 <br>├── <kbd>axios@1.7.9</kbd> Creating HTTP requests 
+<br>├── <kbd>canvas@3.1.0</kbd> Used for creating custom images.
 <br>├── <kbd>discord.js@14.17.3</kbd> Main Discord bot library. 
 <br>├── <kbd>dotenv@16.4.7</kbd> Working with environmental variables. 
 <br>├── <kbd>fetch@1.1.0</kbd> Fetching url contents (UNUSED PACKAGE?) 
 <br>├── <kbd>fs@0.0.1</kbd> Used for reading file within directory. 
 <br>├── <kbd>googleapis@144.0.0</kbd> Used for Google authentication & connecting to Google tools. 
+<br>├── <kbd>node-cron@3.0.3</kbd> Used for running commands at specific times.
 <br>├── <kbd>path@0.12.7</kbd> Assists with tracking file paths. 
 <br>└── <kbd>qrcode@1.5.4</kbd> Generate & work with QR codes. 
 </kbd>
@@ -202,7 +204,7 @@ Node Packages are outside libraries imported into our code to assist with specif
 ___
 # Slash Commands
 Slash commands are a list of pre-defined commands that can be used to interact with the bot. <br> 
-These commands can also come with different input parameters accordingly (see [src/register-commands.js](#src-register-commandsjs)).<br>
+These commands can also come with different input parameters accordingly (see [src/commands.js](#src-commandsjs)).<br>
 
 To start using commands, all you need to do is start typing a message with the character `/`, then you can select the command you wish to use.
 <br><img width="795" alt="image" src="https://github.com/user-attachments/assets/aea8cd47-814b-452c-a80d-1ffdc8fb9291" />
@@ -248,7 +250,7 @@ This command will inform the user of the C&K magazine submissions' requirements.
 ___
 ## <kbd>`/submit` <kbd>TITLE</kbd> <kbd>AUTHOR</kbd> <kbd>TYPE</kbd> <kbd>INFO</kbd> <kbd>SUBMISSION</kbd> <kbd>LINK (optional)</kbd> </kbd>
 Submit a piece to the magazine.
-<br>The <kbd>SUBMISSION</kbd> file will be sent to Google drive, along with other submissions (see TODO link drive section).
+<br>The <kbd>SUBMISSION</kbd> file will be sent to Google drive, along with other submissions (if Drive isn't working, see [Renewing Authentication Token](#renewing-authentication-token) section).
 <br>Before being send into the drive, the submission will be sorted into different folders based on the chosen <kbd>TYPE</kbd>:
 1. Writing
 2. Visual
@@ -267,11 +269,12 @@ ___
 ## <kbd>`/schedule` </kbd>
 This command will inform the user of the meeting time and location of our regular C&K member meetings, along with the exact meeting time of the next meeting.
 
-<br> > 🐛 TODO fix bug with time (hosting service & discord have different timezones which SUCKS btw bc I spend hours trying to fix this for the deadline and just now realized it's the same issue for this)
 
 > Can be activated through chat messages by replying to or mentioning `@King Oyster#0093`, using keywords: 
 > <br><kbd>schedule</kbd> or <kbd>meet</kbd> AND <kbd>time</kbd> or <kbd>when</kbd> or <kbd>where</kbd> 
-   
+
+
+> <sup> 🐛 **Note:** Sometimes the hosting service could have a different timezone and mess up deadline times and such since I'm working with literal timestamps, which sucks. I'm currently hosting locally but that's an issue to look out for. Now I can see why most discord bots don't use timestamps, I guess I made more work for myself.
 ___
 ## <kbd>`/officehours` </kbd>
 Get the location and time of our office hours for the semester.
@@ -339,7 +342,7 @@ Get a random adjective and noun to help spark some inspiration ✨
 
 ___
 ## <kbd>`/quote` </kbd>
-Wanna feel some wisdom? Then get a random quote from a set of 40+ pre-selected quotes (saved in [quotes.txt](TODO link quotes.txt) file).
+Wanna feel some wisdom? Then get a random quote from a set of 40+ pre-selected quotes (saved in [quotes.txt](#src-quotestxt) file and separated by three new lines).
 <br>Don't like what you see? Worry not you ungrateful child, for I have an <kbd>Another Quote</kbd> only for you.
 
 <br><img width="451" alt="image" src="https://github.com/user-attachments/assets/7ba96f4e-b587-4911-97e8-06c7003940c2" />
@@ -394,20 +397,20 @@ For example, if you say **"important"** in your message then king oyster will tr
 Personally, I would advise against reading the rest of this section, as knowing when and what Oyster reacts to would ruin the magic, but I won't stop you if you're curious. 
 <br>Enough blabber, here's a table—
 
-| Emoji    | ID      | Keywords | CHANNEL KEYWORD | INCLUDES |
-| -------- | ------- | -------- | --------------- | -------- |
-| 💚       | X       | X        | "announce"      |`@everyone`|
-| ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | NOT "anounce"   |`@everyone`|
-| ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | "share"        | ATTACHMENT |
-| ![image](https://github.com/user-attachments/assets/0583e696-fc09-40fa-9578-a5e7d098a9bd) | 1334609229599739976 | X   | NOT "share"    | ATTACHMENT |
-| ![image](https://github.com/user-attachments/assets/17199945-c2f1-45d3-9876-ecb43e58c398) | 1334609056421249186 | "boba"     | X       | X          |
-| <kbd>![image](https://github.com/user-attachments/assets/4e23e73d-c06f-467e-983b-b1f6957cd7e5)</kbd> | 1334608848513798155 | "origami"  | X       | X          |
-| ![image](https://github.com/user-attachments/assets/56190408-0d15-41b2-930a-fbe7b5111e9a) | 1334609229599739976 | "important"| X       | X          |
-| ‼️ | 1334609229599739976 | "important"| X      | X          |
-| ![image](https://github.com/user-attachments/assets/78a53c5a-e309-42d0-9027-5811894dc1c9) | 1334609780097945733 | "oops" OR "uhoh"| X  | X          |
-| 💚 | X                  | "love" or "thank"| X | X          |
+| Emoji    | ID      | Keywords | CHANNEL KEYWORD | INCLUDES   |
+| -------- | ------- | -------- | --------------- | ---------- |
+| 💚       | X       | X        | "announce"      |`@everyone` |
+| 💚       | X       | "love" or "thank"| X       | X          |
+| ‼️       | X       | "important"| X             | X          |
+| 📜       | X       | X          | X             | *5+ LINES  |
+| ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | NOT "anounce"     |`@everyone`              |
+| ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | "share"           | ATTACHMENT or *5+ LINES |
+| ![image](https://github.com/user-attachments/assets/0583e696-fc09-40fa-9578-a5e7d098a9bd) | 1334609229599739976 | X   | NOT "share"       | ATTACHMENT              |
+| ![image](https://github.com/user-attachments/assets/17199945-c2f1-45d3-9876-ecb43e58c398) | 1334609056421249186 | "boba"     | X          | X                       |
+| <kbd>![image](https://github.com/user-attachments/assets/4e23e73d-c06f-467e-983b-b1f6957cd7e5)</kbd> | 1334608848513798155 | "origami"| X | X                       |
+| ![image](https://github.com/user-attachments/assets/78a53c5a-e309-42d0-9027-5811894dc1c9) | 1334609780097945733 | "oops" OR "uhoh"| X     | X                       |
 
-> 🐛 **TODO:** Make sure Oyster can detect poems inside of the share channel and react to them with either a special scroll 📜 or the same thing it reacts to images there
+> 📜 ***+5 lines:** check if message has 4+ line breaks, meant to help detect poems.
 
 
 
