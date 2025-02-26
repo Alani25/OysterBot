@@ -33,6 +33,7 @@ TOC:
    - <kbd>[src/ register-commands.js](#src-register-commandsjs)</kbd>
    - <kbd>[.env](#env)</kbd>
    - <kbd>[package.json & package-lock.json files + node_modules directory](#packagejson--package-lockjson-files--node_modules-directory)</kbd>
+   - <kbd>Setting up Workspace</kbd> TODO link section
 2. [Node packages](#node-packages)
 3. [Slash commands](#slash-commands)
    - [<kbd>/report</kbd><kbd>`USERNAME`, `REASON`, `ATTACHMENTS` (optional)</kbd>](#report-username-reason-attachments-optional-)
@@ -60,7 +61,8 @@ ___
 
 # Workspace
 The directory is organized as follows:
-<br><img width="180" alt="image" src="https://github.com/user-attachments/assets/1a5b4811-3338-40ee-9a9e-977cfe6327bc" />
+<br><img width="187" alt="image" src="https://github.com/user-attachments/assets/af4a53b3-2484-40c8-a566-39e88b3f8862" />
+
 
 ## src/ index.js
 The heart of King Oyster, the main breain— this file contains main code for bot. 
@@ -106,6 +108,79 @@ Contains all secrets.
 `package.json` contains version number of dependencies, while `package-lock.json` includes more info on packages used, connecting back to `node_modules` directory, which includes all the packages used in the project.
 <br>TODO mention node commands here
 <br>TODO link Node Packages section
+
+## Setting up Workspace
+See [Workspace](#workspace) to get an idea of how to setup the directory. This tutorial assumes that you have NPM v22+ and git installed on your device. 
+<br>If not, you can [follow this quick guide to install git](https://github.com/git-guides/install-git) and clone this respitory with this command
+```curl
+git clone https://github.com/Alani25/OysterBot.git
+```
+or you can manually download the files from this respitory (which would be a better option if you don't have expierence with git).
+<br><img width="481" alt="Screenshot 2025-02-25 at 11 46 48 AM" src="https://github.com/user-attachments/assets/47c3c8db-0c02-407f-9107-709574cfca3a" />
+
+However, you will still _need_ to [install Node JS](https://nodejs.org/en/download) to use the [DiscordJS library](https://discord.js.org/) and other [required packages](#node-packages).
+
+<br>An IDE (Integrated Development Environment, aka a code editor) would also be required to edit the code, in which case I would recommend [VS Code](https://code.visualstudio.com/). 
+
+<br>After install the code, either using `git clone` or by manually installing the zip file and unzipping it, you should find these files inside of the version folder.
+<br>Note that the version used in this tutorial is `v0.1.06`, but you might be working off of a different version. If there are any other files or versions outside of the directory feel free to remove them. 
+<br><img width="903" alt="image" src="https://github.com/user-attachments/assets/8816e4ce-f60d-434d-a92a-89187f1c042b" />
+
+Next step should be simple— first make sure your Node version is up to date by running
+```curl
+node --version
+```
+Node version v17+ is recommended. 
+<br>Next, change directory into the version you would like to use. Would recommend doing a quick `ls` to view all version installed, in this tutorial we'll be going into `V0.1.06` but I would recommend working with the latest version of the bot available. Same steps would apply for all versions.
+```
+cd V0.1.06
+npm install
+```
+
+Preview in terminal:
+<img width="403" alt="image" src="https://github.com/user-attachments/assets/123ac481-23a8-4c8e-b88b-c392caed2788" />
+
+Now if you've never touched a terminal before you might be confused. In which case, I would recommend you to install the VS Code IDE I mentioned earlier, and open the version folder there instead. After opening the bot folder there, you should find a terminal at the bottom. 
+<img width="1019" alt="Screenshot 2025-02-25 at 12 04 05 PM" src="https://github.com/user-attachments/assets/82d415e4-922f-47da-b30a-555bda0b3819" />
+If you don't see the terminal, move your cursor closer to the bottom of the editor, and try to drag up the terminal window.
+<br>You should be able to run `npm install` inside of the terminal window, without needing to change directory with `cd V0.1.06` if you opened the version folder inside VS Code.
+
+<br>Your main code should be inside of the [<kbd>index.js</kbd> file](TODO Link index.js file). You will also need to create a [<kbd>.env</kbd> file](TODO Link .env file), see the [<kbd>.env</kbd> file](TODO Link .env file) section for an idea on what to include inside of the file.
+
+<br>**Note:** you will need to know how to aquire the different tokens that are used in the `.env` file in order to create your own.
+<br>If you're planning on updating King Oyster's code… well, first off hey there future C&K officers, I can't believe you're actually reading this!! And second off… you can either contact me for the files or see if I've left it behind for you somewhere, unless if you have expierence programming bots and would like to get them on your own, in which case head over to the [Google authentication playground for developers](https://developers.google.com/oauthplayground), [Google Cloud Console](https://console.cloud.google.com/), both which I'll explain later on, Google Drive & Sheets (obviously) and the [Discord Developer Portal](https://discord.com/developers/applications).
+
+<br>For the Google Spreasheet, make sure to also use [this Spreadsheet](https://docs.google.com/spreadsheets/d/1ppkEjOB4EYGmxIexfEBU_mMoCqp8vWpwRIgj6Cr9zjw/edit?usp=sharing) as reference. Most of everything else would rely on the code, and in which case if you are trying to update things I would hope that you understand some coding… if you don't, then god help you cause you'll sure be in for a lotta fun.
+
+<br>Back on topic, once you're all set with everything, you should be able to start the bot by running the command
+```curl
+node src/index.js
+```
+Alternatively, I'd like to also recommend running the bot with either [nodemon](https://www.npmjs.com/package/nodemon) while testing, or [pm2](https://www.npmjs.com/package/pm2) if you'd like to keep the bot alive 24/7 in the background of your computer. There are additional steps to that in the case that you'd want to keep the bot alive while the computer is sleeping, in which for I'd recommend using [Amphetamine](https://apps.apple.com/us/app/amphetamine/id937984704?mt=12) or a real bot hosting service if you're not a psycho, such as [lunes](https://lunes.host/). I will give you a warning though, when using a bot hosting service, the service providers might be within a different time zone, which could mess up dates and such. This is not always the case, but do watch out for that.
+
+### Renewing Authentication Token
+<br>If you run the bot, and get something in the console that says
+```curl
+Error reading spreadsheet: invalid_grant
+Google APIs won't work. In other words, google drive & spreadsheet connections won't happen…
+plz visit https://developers.google.com/oauthplayground using approved google account and see codes inside of .env file
+```
+First thing you should do is thank me for the detailed warning. Next up, follow the steps given.
+<br>Head over to the [OAuth 2.0 Playground](https://developers.google.com/oauthplayground), and under step 1, search for and check `https://www.googleapis.com/auth/drive` for Google Drive authentication (under <kbd>Apps Script API V1</kbd> or <kbd>Drive API v3</kbd>), and `https://www.googleapis.com/auth/spreadsheets.readonly` for Speadsheets authentication (under <kbd>Area120 Tables API v1alpha1</kbd> or <kbd>Google Sheets API v4</kbd>).
+
+<br>Second step, select the gear icon and make sure to add in your OAuth Client ID and Secret ID.
+<img width="644" alt="Screenshot 2025-02-25 at 5 59 32 PM" src="https://github.com/user-attachments/assets/edec66ac-e2c4-45a7-8a76-1fb16cd0a029" />
+I cannot show these tokens publicly as they can be misused, but you can obtain them from the [Google Cloud Console](https://console.cloud.google.com/), which if you're a part of C&K then I recommend logging in through the C&K Gmail to obtain these codes without much trouble. If you're not, then I would recommend following [this youtube tutorial](https://www.youtube.com/watch?v=1y0-IfRW114) to connect your bot to Google's APIs. 
+
+<br>Lastly, select <kbd>Authorize APIs</kbd>
+<img width="547" alt="Screenshot 2025-02-25 at 6 57 19 PM" src="https://github.com/user-attachments/assets/41bf3d6a-0e56-46e7-bc5e-7c2edc7c798a" />
+You would be prompted to log into a google account, and allowing certain permissions.
+<br>You should use the C&K google account, or an account that has been set up under [Google Cloud Console](https://console.cloud.google.com/).
+
+<br>Once you complete the process, you should find yourself on step 2 of the OAuth 2.0 Playground (if it skips to step 3, then click step 2). 
+<br>Click <kbd>Exchange authroization code for tokens</kbd>, and then copy the **refresh token**. This is the token that you will define inside the [.env](TODO Link env file) file, under the variable name `DRIVE_REFRESH_TOKEN`.
+
+<br>And now, once you run the bot again, you should not see the `invalid_grant` error.
 
 ___
 
