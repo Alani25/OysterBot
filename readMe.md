@@ -17,7 +17,7 @@ Code logs are important things among developers. Since I'm not using github with
 ### v0.1.07
 - 🎩 **Hosting:** Improve memory & hosting
 - ✨ **Feature:** Allow bot to welcome new members
-- 🚔 **Modding:** Spam prevention features with bot. If the same user sends 10+ messages in the same minute, or sends a message that is detected as spam (15+ letters without a space will be detected as spam, ex: uhfkeskfksfnnksefnks), mute them for a minute. If they spam again, bot will mute again for double the time. Mute info will reset after every hour (meaning if they spam again the next hour, it'll be back to 1 minute mute and goes up from there)
+- 🚔 **Modding:** Spam prevention features with bot. If the same user sends 10+ messages in the same minute, or sends a message that is detected as spam (15+ letters without a space will be detected as spam, ex: uhfkeskfksfnnksefnks), mute them for a minute. If they spam again, bot will mute again for double the time, and so on. Mute info will reset after every hour (meaning if they spam again the next hour, it'll be back to 1 minute mute and goes up from there)
 - ✨ **Feature:** Creating reminders. Ask Oyster to remind you to do something at certain time, and it'll DM you or send a message inside the channel when the time comes.
 - 🔧 **Improvement:** Allowed bot to notice poems in **share channel** (used to only react to posts with embeds)
 - 🔧 **Improvement:** Allow user to view specific or next quote (extra parameter), and make it so that requesting new quote creates a new message rather than editing previous message (this is how it was at first but then I edited it to prevent spam and now I'm putting it back after watching recent user interactions)
@@ -28,15 +28,17 @@ These documentations are written as of version **`V0.1.06`** of King Oyster Bot,
 
 TOC:
 1. [Workspace](#workspace)
+   - <kbd>[src/ commands.js](#src-commandsjs)</kbd>
    - <kbd>[src/ index.js](#src-indexjs)</kbd>
    - <kbd>[src/ quotes.txt](#src-quotestxt)</kbd>
-   - <kbd>[src/ commands.js](#src-commandsjs)</kbd>
+   - <kbd>[src/ reminders.txt](#src-reminderstxt)</kbd>
+   - <kbd>[src/ welcome.png](#src-welcomepng)</kbd>
    - <kbd>[.env](#env)</kbd>
-   - <kbd>[package.json & package-lock.json files + node_modules directory](#packagejson--package-lockjson-files--node_modules-directory)</kbd>
-   - <kbd>[Setting up Workspace](#setting-up-workspace)</kbd>
-      - <kbd>[Renewing Authentication Token](#renewing-authentication-token)</kbd>
-2. [Node packages](#node-packages)
-3. [Slash commands](#slash-commands)
+   - [<kbd>package.json</kbd> & <kbd>package-lock.json</kbd> files + <kbd>node_modules</kbd> directory](#packagejson--package-lockjson-files--node_modules-directory)
+   - [Setting up Workspace](#setting-up-workspace)
+   - [Renewing Authentication Token](#renewing-authentication-token)
+   - [Node packages](#node-packages)
+2. [Slash commands](#slash-commands)
    - [<kbd>/report</kbd><kbd>`USERNAME`</kbd><kbd>`REASON`</kbd><kbd>`ATTACHMENTS` (optional)</kbd>](#report-username-reason-attachments-optional-)
    - [<kbd>/add-officer</kbd><kbd>`USERNAME`</kbd>](#add-officer-username-)
    - [<kbd>/deadline</kbd><kbd>_</kbd>](#deadline-)
@@ -50,28 +52,23 @@ TOC:
    - [<kbd>/suggest</kbd><kbd>`ACTIVITY`</kbd><kbd>`INFO`</kbd>](#suggest-activity-info-)
    - [<kbd>/roll</kbd><kbd>`MAX` (optional)</kbd>](#roll-max-optional-)
    - [<kbd>/INSPIRE</kbd><kbd>_</kbd>](#inspire-)
-   - [<kbd>/QUOTE</kbd><kbd>_</kbd>](#quote-)
+   - [<kbd>/QUOTE</kbd><kbd>`NUMBER` (optional)</kbd>](#quote-)
    - [<kbd>/QR-CODE</kbd><kbd>`URL`</kbd><kbd>`SCALE` (optional)</kbd><kbd>`COLOR` (optional)</kbd><kbd>`COLOR-BG` (optional)</kbd>](#qr-code-url-scale-optional-color-optional-color-bg-optional-)
-4. [Non-Slash Commands](#non-slash-commands)
-   - <kbd>[Haiku Detection](#haiku-detection)</kbd>
-   - <kbd>[Count Syllables](#count-syllables)</kbd>
-   - <kbd>[Reactions](#reactions)</kbd>
-5. 
+   - [<kbd>/REMIND-ME</kbd><kbd>REMINDER</kbd><kbd>MONTH</kbd><kbd>DAY</kbd><kbd>YEAR (optional)</kbd><kbd>TIME (optional)</kbd><kbd>PRIVATE (optional)</kbd>](#remind-me-reminder-month-day-year-optional-time-optional-private-optional-)
+3. [Non-Slash Commands](#non-slash-commands)
+   - <kbd>[Custom Welcome Image](#custom-welcome-image)</kbd> <sub>(v0.1.07)</sub>
+   - <kbd>[Haiku Detection](#haiku-detection)</kbd> <sub>(v0.1.05)</sub>
+   - <kbd>[Count Syllables](#count-syllables)</kbd> <sub>(v0.1.06)</sub>
+   - <kbd>[Reactions](#reactions)</kbd> <sub>(v0.1.05+)</sub>
+4. [Moderating](#moderating)
+   - [Spam Prevention](#spam-prevention)
+   - [Link Permission](#link-permissions)
 
 ___
 
 # Workspace
 The directory is organized as follows:
 <br><img width="187" alt="image" src="https://github.com/user-attachments/assets/af4a53b3-2484-40c8-a566-39e88b3f8862" />
-
-
-## src/ index.js
-The heart of King Oyster, the brain— this file contains main code for bot. 
-<br>This file includes Google authentication, working with Google Drive & Spreadhseets (see [renewing authentication token](#renewing-authentication-token) section), imports dependencies (see [Node Packages](#node-packages)), sets bot status, connects to `quotes.txt` file, listens to interactions and created messages.
-
-## src/ quotes.txt
-Lists quotes to be used in `index.js`.
-<br>[See `/quote` slash command.](#quote-)
 
 ## src/ commands.js
 Registers slash commands.
@@ -81,6 +78,27 @@ node src/commands.js
 ```
 Make sure to adjust the server ID in `.env` file.
 <br>[See Slash Commands section for more info on slash commands.](#slash-commands)
+
+## src/ index.js
+The heart of King Oyster, the brain— this file contains main code for bot. 
+<br>This file includes Google authentication, working with Google Drive & Spreadhseets (see [renewing authentication token](#renewing-authentication-token) section), imports dependencies (see [Node Packages](#node-packages)), sets bot status, connects to `quotes.txt` file, listens to interactions and created messages.
+
+## src/ quotes.txt
+Lists quotes to be used in `index.js`.
+<br>[See `/quote` slash command.](#quote-)
+
+## src/ reminders.txt
+A text file to save all reminders.
+<br>In the case that Oyster Bot restarts, all the reminders won't be lost since they'd be saved in this file.
+<br>TODO link reminders command here
+
+## src/ welcome.png
+Base for custom welcome image. Image below to the left is <kbd>src/ welcome.png</kbd>, and image to the right is an example of the base image being used to create a welcome message with a user's avatar, as a test. The image to the right is also saved as <kbd>welcome-image.png</kbd> within the directory, and adjusts accordingly based on each user.
+<br><img width="200" alt="Welcome Image Base" src="https://github.com/user-attachments/assets/4b3aeac4-b93d-4c18-a420-fc0d61332e87" /> <img width="200" alt="Welcome Image USED" src="https://github.com/user-attachments/assets/6c222a2a-955b-48ef-bbd5-91d8482fe10b" />
+<br>[See `Custom Welcome Image` section.](#custom-welcome-image)
+
+
+> **Note:** The <kbd>src/ welcome.wick</kbd> is the Wick project file where I created the custom image, and can be opened with [Wick Editor](https://www.wickeditor.com/#/) and edited from there.
 
 ## .env
 Contains all secrets. 
@@ -107,7 +125,8 @@ Contains all secrets.
 <br>Setting up NPM steps included in [Setting up Workspace](#setting-up-workspace) section.
 <br>[See Node Packages section.](#node-packages)
 
-## Setting up Workspace
+___
+# Setting up Workspace
 See [Workspace](#workspace) to get an idea of how to setup the directory. This tutorial assumes that you have NPM v22+ and git installed on your device. 
 <br>If not, you can [follow this quick guide to install git](https://github.com/git-guides/install-git) and clone this respitory with this command
 ```curl
@@ -173,8 +192,8 @@ First thing you should do is thank me for the detailed warning. Next up, follow 
 <br>I cannot show these tokens publicly as they can be misused, but you can obtain them from the [Google Cloud Console](https://console.cloud.google.com/), which if you're a part of C&K then I recommend logging in through the C&K Gmail to obtain these codes without much trouble. If you're not, then I would recommend following [this youtube tutorial](https://www.youtube.com/watch?v=1y0-IfRW114) to connect your bot to Google's APIs. 
 
 <br>Lastly, select <kbd>Authorize APIs</kbd>
-<img width="547" alt="Screenshot 2025-02-25 at 6 57 19 PM" src="https://github.com/user-attachments/assets/41bf3d6a-0e56-46e7-bc5e-7c2edc7c798a" />
-You would be prompted to log into a google account, and allowing certain permissions.
+<br><img width="547" alt="Screenshot 2025-02-25 at 6 57 19 PM" src="https://github.com/user-attachments/assets/41bf3d6a-0e56-46e7-bc5e-7c2edc7c798a" />
+<br>You would be prompted to log into a google account, and allowing certain permissions.
 <br>You should use the C&K google account, or an account that has been set up under [Google Cloud Console](https://console.cloud.google.com/).
 
 <br>Once you complete the process, you should find yourself on step 2 of the OAuth 2.0 Playground (if it skips to step 3, then click step 2). 
@@ -184,14 +203,14 @@ You would be prompted to log into a google account, and allowing certain permiss
 
 ___
 
-# Node Packages
+## Node Packages
 Node Packages are outside libraries imported into our code to assist with specific tasks. The libraries have been installed through NPM. You may run `npm ls` to get a list of all current node packages, or `npm outdated` to search for any outdated packages. 
 
 **DiscordBot**
 <br><kbd>
 <br>├── <kbd>axios@1.7.9</kbd> Creating HTTP requests 
 <br>├── <kbd>canvas@3.1.0</kbd> Used for creating custom images.
-<br>├── <kbd>discord.js@14.17.3</kbd> Main Discord bot library. 
+<br>├── <kbd>discord.js@14.18.0</kbd> Main Discord bot library. 
 <br>├── <kbd>dotenv@16.4.7</kbd> Working with environmental variables. 
 <br>├── <kbd>fetch@1.1.0</kbd> Fetching url contents (UNUSED PACKAGE?) 
 <br>├── <kbd>fs@0.0.1</kbd> Used for reading file within directory. 
@@ -314,6 +333,7 @@ Request permission to post links.
 
 <br>Please note that certain links, such as youtube and tenor urls (GIFs) are allowed without needing link perms (see `allowedLinks` array in code).
 
+<br>[See link permissions section.](#link-permissions)
 ___
 ## <kbd>`/suggest` <kbd>ACTIVITY</kbd> <kbd>INFO</kbd> </kbd>
 Suggest an <kbd>ACTIVITY</kbd> for us to do during our weekly member meetings, along with extra <kbd>INFO</kbd> on how the activity works.
@@ -331,9 +351,9 @@ Roll a dice and get a random number. Optionally, you can adjust the range of pos
 ___
 ## <kbd>`/inspire` </kbd>
 Get a random adjective and noun to help spark some inspiration ✨
-<br>Don't like what you see? With the click of a button you can spin the wheel once again.
 
-<br><img width="309" alt="image" src="https://github.com/user-attachments/assets/473ea3be-864d-4848-b169-85113b43c9ca" />
+<br><img width="300" alt="image" src="https://github.com/user-attachments/assets/2712716a-51e4-40b1-819d-e1230435acda" />
+<br>Don't like what you see? Click <kbd>Sprinkle More Inspiration</kbd> and King Oyster will edit the message to add more inspiration on top of what's already there.
 
 <sup>**Note:** See `getRandomInspiration(...)` function in code, `noun` and `adjective` variables.</sup>
 
@@ -341,11 +361,12 @@ Get a random adjective and noun to help spark some inspiration ✨
 > <br><kbd>inspire</kbd> or <kbd>inspiration</kbd>
 
 ___
-## <kbd>`/quote` </kbd>
-Wanna feel some wisdom? Then get a random quote from a set of 40+ pre-selected quotes (saved in [quotes.txt](#src-quotestxt) file and separated by three new lines).
-<br>Don't like what you see? Worry not you ungrateful child, for I have an <kbd>Another Quote</kbd> only for you.
+## <kbd>`/quote` <kbd>NUMBER (optional)</kbd> </kbd>
+Wanna feel some wisdom? Then get a random quote from a set of 40+ pre-selected quotes (saved in [quotes.txt](#src-quotestxt) file, quotes are separated by three new lines).
+<br>If you choose to input a <kbd>NUMBER</kbd> then you'll get a quote that corresponds to that number rather than a random one.
 
 <br><img width="451" alt="image" src="https://github.com/user-attachments/assets/7ba96f4e-b587-4911-97e8-06c7003940c2" />
+<br>Each generated quote is followed with three buttons. Two arrows to cycle through previous and next quote, and a <kbd>Random Quote</kbd> button, which gives you a new random quote in a new message.
 
 > Can be activated through chat messages by replying to or mentioning `@King Oyster#0093`, using keywords: 
 > <br><kbd>quote</kbd>
@@ -366,9 +387,24 @@ The slash command works the same way as the text command, except if you generate
 > <br>STARTS WITH <kbd>`qr `</kbd>
 
 ___
-## Non-Slash Commands
+## <kbd>`/remind-me` <kbd>REMINDER</kbd> <kbd>MONTH</kbd> <kbd>DAY</kbd> <kbd>YEAR (optional)</kbd> <kbd>TIME (optional)</kbd> <kbd>PRIVATE (optional)</kbd> </kbd>
+Ask King Oyster to reminder you about <kbd>REMINDER</kbd>, in the given <kbd>MONTH</kbd> / <kbd>DAY</kbd>. 
+<br>You can also optionally specify <kbd>YEAR (optional)</kbd> and <kbd>TIME (optional)</kbd>.
+
+<br>You can also set <kbd>PRIVATE (optional)</kbd> to `True` to make Oyster send you a private reminder in your DMs.
+
+<sup>**Note:** This slash command was added recently in v0.1.07, and is likely to be updated in later versions.</sup>
+
+___
+# Non-Slash Commands
 To make the bot feel more lively and noticed, we need it to react and interact with the community without being tasked to.
 <br>For this reason, I have added a set of interactions for the bot. Some of these interactions might still be considered commands, but most could happen unexpectedly.
+
+## Custom Welcome Image
+King Oyster greets all new members with a welcome message, and the new user's avatar as part of a custom welcome image. 
+<br> [See `src/ welcome.png` file.](#src-welcomepng)
+<br>![image](https://github.com/user-attachments/assets/46214741-946a-45a6-bfc0-e023b8013227)
+
 
 ## Haiku Detection
 King Oyster automatically checks all send messages in search of a 5-7-5 syllables haiku pattern. If it finds a message that meets this critera, it'll reply with the following message:
@@ -397,12 +433,13 @@ For example, if you say **"important"** in your message then king oyster will tr
 Personally, I would advise against reading the rest of this section, as knowing when and what Oyster reacts to would ruin the magic, but I won't stop you if you're curious. 
 <br>Enough blabber, here's a table—
 
-| Emoji    | ID      | Keywords | CHANNEL KEYWORD | INCLUDES   |
-| -------- | ------- | -------- | --------------- | ---------- |
-| 💚       | X       | X        | "announce"      |`@everyone` |
-| 💚       | X       | "love" or "thank"| X       | X          |
-| ‼️       | X       | "important"| X             | X          |
-| 📜       | X       | X          | X             | *5+ LINES  |
+| Emoji    | ID      | Keywords | CHANNEL KEYWORD | INCLUDES     |
+| -------- | ------- | -------- | --------------- | ------------ |
+| 💚       | X       | X        | "announce"      |`@everyone`   |
+| 💚       | X       | "love" or <br>"thank" AND "oyster"|X| X   |
+| 💚       | X       | "thank"  | X               |`@King Oyster`|
+| ‼️       | X       | "important"| X             | X            |
+| 📜       | X       | X          | X             | *5+ LINES    |
 | ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | NOT "anounce"     |`@everyone`              |
 | ![image](https://github.com/user-attachments/assets/2b34f20d-5fae-4442-9cfe-c69875ccfced) | 1334234382772207696 | X   | "share"           | ATTACHMENT or *5+ LINES |
 | ![image](https://github.com/user-attachments/assets/0583e696-fc09-40fa-9578-a5e7d098a9bd) | 1334609229599739976 | X   | NOT "share"       | ATTACHMENT              |
@@ -410,9 +447,31 @@ Personally, I would advise against reading the rest of this section, as knowing 
 | <kbd>![image](https://github.com/user-attachments/assets/4e23e73d-c06f-467e-983b-b1f6957cd7e5)</kbd> | 1334608848513798155 | "origami"| X | X                       |
 | ![image](https://github.com/user-attachments/assets/78a53c5a-e309-42d0-9027-5811894dc1c9) | 1334609780097945733 | "oops" OR "uhoh"| X     | X                       |
 
-> 📜 ***+5 lines:** check if message has 4+ line breaks, meant to help detect poems.
+> 📜 ***5+ lines:** check if message has 4+ line breaks, meant to help detect poems.
+
+___
+# Moderating
+This is fun and all, but gotta remember that a main reason for Oyster's creation was to help in moderating the server in cases where the mods might not be online. 
 
 
+> <sup>This section has been added in version v0.1.07.</sup>
 
+## Spam Prevention
+If the same user sends 10+ messages in the same minute, or 15+ letters without a space will (ex: uhfkeskfksfnnksefnks), Oyster will mute them for a minute. 
+<br>If they spam again, Oyster will mute again for 2 minutes, and the time will keep doubling. Mute info will reset after every hour (meaning if they spam again the next hour, it'll be back to 1 minute mute and goes up from there)
+
+<img width="607" alt="image" src="https://github.com/user-attachments/assets/d878a9da-3dc3-4d18-9f95-573da4f2b47d" />
+
+> **Note:** King Oyster cannot mute users with equal or higher permissions than him. Meaning if I'm an admin, then Oyster cannot mute me. Of course, if I'm an admin, spamming is the least dangerous thing I could do 😅
+
+## Link Permissions
+If a user without an officer or link role attempts to post a link that is not a tenor (GIF) or youtube URL, then Oyster deletes the message immediately and sends a private message to the user, telling them to ask for permission before sharing a link in the club.
+<br><img width="500" alt="Oyster D-M-ing someone about their deleted link and how to request link permission" src="https://github.com/user-attachments/assets/f9069f80-3614-41d8-9eae-23ed6cf6af78" />
+<br>To allow someone to post links, you'll just need to give them the <kbd>link perm</kbd>, or a role in the server with the word "link" (make sure you don't have multiple link roles in the channel).
+<br>As long as someone has the link role, they should be able to post links without Oyster stopping them.
+
+<br> You can also edit the URLs that Oyster allows by defeault by editing the `allowedLinks` array inside of the <kbd>[src/ index.js](#src-indexjs)</kbd> file.
+
+<br> [See `/linkperm [...]` command.](#linkperm-link-)
 
 
