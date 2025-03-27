@@ -22,6 +22,12 @@ Code logs are important things among developers. Since I'm not using github with
 - 🔧 **Improvement:** Allowed bot to notice poems in **share channel** (used to only react to posts with embeds)
 - 🔧 **Improvement:** Allow user to view specific or next quote (extra parameter), and make it so that requesting new quote creates a new message rather than editing previous message (this is how it was at first but then I edited it to prevent spam and now I'm putting it back after watching recent user interactions)
 
+### WIP
+- 🎩 **Hosting:** Migrate hosting to a micrcontroller device
+- ✍️ **Data:** Save data from google sheets on separate file, to avoid losing data when API token requires refreshing
+- ~~🔧 **Improvements:** Stop bot from reacting with 📜 on messages "detected" as literature anywhere outside the share channel, as it can mistake a lotta things for poems/ lit pieces.~~ ✅ _**DONE**_
+- ☠️ **Oyster's Secret:** Create Oyster's secret, one which no one would know of until the "time has come." Am I insane for adding this in? Yes. I'm a programmer after all.
+- ✨ **Feature:** Allow King Oyster to nicely organize submissions into folders based on their genre, and even create separate threads with every submission posted or linked within (avoid attachments over 200 MB).
 ___
 ## Code Documentations
 These documentations are written as of version **`V0.1.06`** of King Oyster Bot, and are currently being updated with version **`V0.1.07`**.
