@@ -2,7 +2,7 @@
 //*********************    JavaScript Source Code    **************************
 //*****************************************************************************
 //  DESIGNER NAME:  Hamzah Alani 
-//        PROJECT:  Oyster Bot v0.1.07
+//        PROJECT:  Oyster Bot v0.1.09
 //    GITHUB DOCS:  https://github.com/Alani25/OysterBot
 //
 //-----------------------------------------------------------------------------
@@ -48,14 +48,50 @@ const { PDFDocument, rgb } = require("pdf-lib"); // for merging into PDF
 // Google drive & sheets configuration
 // https://developers.google.com/oauthplayground 
 // YT ?v=1y0-IfRW114
-const oauth2Client = new google.auth.OAuth2(
-    process.env.DRIVE_CLIENT_ID,
-    process.env.DRIVE_CLIENT_SECRET,
-    process.env.DRIVE_REDIRECT_URI
-);
-oauth2Client.setCredentials({refresh_token: process.env.DRIVE_REFRESH_TOKEN});
-const drive = google.drive({ version: 'v3', auth: oauth2Client });
-const sheets = google.sheets({ version: "v4", auth: oauth2Client }); 
+
+let drive, sheets
+
+async function initGoogle() {
+  // Let GoogleAuth read the key file from GOOGLE_APPLICATION_CREDENTIALS
+  // (you set this in .env just now)
+  const auth = new google.auth.GoogleAuth({
+    scopes: [
+      'https://www.googleapis.com/auth/drive',
+      'https://www.googleapis.com/auth/spreadsheets'
+    ]
+  })
+
+  const authClient = await auth.getClient()
+  drive = google.drive({ version: 'v3', auth: authClient })
+  sheets = google.sheets({ version: 'v4', auth: authClient })
+
+  // sanity log
+  console.log('Google client initialized (Drive + Sheets)')
+}
+
+
+// call this before you start the bot / use readSpreadsheet()
+async function boot() {
+  await initGoogle()          // 1) set up Drive/Sheets
+  await readSpreadsheet()     // 2) now it's safe to use `sheets`
+  await client.login(process.env.TOKEN)  // 3) then start Discord
+}
+
+boot().catch(err => {
+  console.error('Fatal boot error:', err)
+  process.exit(1)
+})
+
+
+
+// const oauth2Client = new google.auth.OAuth2(
+//     process.env.DRIVE_CLIENT_ID,
+//     process.env.DRIVE_CLIENT_SECRET,
+//     process.env.DRIVE_REDIRECT_URI
+// );
+// oauth2Client.setCredentials({refresh_token: process.env.DRIVE_REFRESH_TOKEN});
+// const drive = google.drive({ version: 'v3', auth: oauth2Client });
+// const sheets = google.sheets({ version: "v4", auth: oauth2Client }); 
 
 
 
@@ -253,11 +289,13 @@ async function readSpreadsheet() {
         // update meeting time
         updateMeetingTime();
     } catch (error) {
-        console.error("Error reading spreadsheet: "+ error.message+"\nGoogle APIs won't work. In other words, google drive & spreadsheet connections won't happen…\nplz visit https://developers.google.com/oauthplayground using approved google account and see codes inside of .env file");
+        console.error("Error reading spreadsheet: "+ error.message
+            // +"\nGoogle APIs won't work. In other words, google drive & spreadsheet connections won't happen…\nplz visit https://developers.google.com/oauthplayground using approved google account and see codes inside of .env file"
+        );
         submissionsDeadline = null; // if there's an error updating the date then set to null I guess
     }
 }
-readSpreadsheet();
+// readSpreadsheet(); <-- todo delete me
 // Inspirator
 async function getRandomInspiration(message){
     // Define arrays for each part of speech
@@ -1329,5 +1367,3 @@ client.on("guildMemberAdd", async (member) => {
         files: ["./welcome-image.png"],
     });
 });
-
-client.login(process.env.TOKEN);
