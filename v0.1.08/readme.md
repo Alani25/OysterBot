@@ -6,8 +6,7 @@ This is a bot programmed by Hamzah Alani, VP of C&K Fall-Spring 25
 Please contact me in case of errors with bot
 
 # TO UPDATE SIMPLE INFO
-To make this bot easier to edit for other officers in C&K, I connected it to this spreadsheet:
-https://docs.google.com/spreadsheets/d/1ppkEjOB4EYGmxIexfEBU_mMoCqp8vWpwRIgj6Cr9zjw/edit?gid=0#gid=0
+To make this bot easier to edit for other officers in C&K, I connected it to a private google spreadsheet (accessible by C&K officers only) 
 
 You can also find the spreadsheet on the Drive, along with the submission files separated into different folders.
 
@@ -23,12 +22,10 @@ You'll need to change the value for these folders:
 
 Each of these variables is set to the folder ID for the literature, visual, audio, video, and other folder.
 You can set them to a different folder by going to google drive, go inside the folder you want to use, and 
-look at the page link when you're inside that folder. Here's an example:
-
-https://drive.google.com/drive/u/0/folders/1brB1739baRuSjRnlbRYFkuhvy58AIiWh
+look at the page link when you're inside that folder. 
 
 When you look at the link, everything after the "folders/" is the folder ID. 
-For this example it's: 1brB1739baRuSjRnlbRYFkuhvy58AIiWh
+
 Take this code, copy it and paste it in place of the other folder IDs in the .env, and there you have it. 
 It's that simple.
 Still feel free to contact me if it seems complicated.
