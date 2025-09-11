@@ -33,5 +33,3 @@ Still feel free to contact me if it seems complicated.
 # IMPO. Links
 **Hosting:** https://ctrl.lunes.host/server/c9bf13f6
 **Google Authenticate:** https://developers.google.com/oauthplayground
-**Drive Folder:** https://drive.google.com/drive/u/0/folders/1FKSadlZXadIhsPcdDn-KK07DKsFh0-YD
-**Spreadsheet:** https://docs.google.com/spreadsheets/d/1ppkEjOB4EYGmxIexfEBU_mMoCqp8vWpwRIgj6Cr9zjw/edit?gid=0#gid=0
